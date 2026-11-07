@@ -291,7 +291,7 @@ entrega a Daniel.
 - [ ] Prueba de las 256 combinaciones contra la definición.
 
 **HU-11 Maniobra.** Como operador quiero saber qué hace la nave ante la alerta.
-- [ ] Una alerta → evasión hacia el sector opuesto (N → S, NE → SO...).
+- [ ] Una alerta → evasión de costado, dos casillas más allá en el anillo (N → E, SO → NO). Ir hacia el lado opuesto dejaría a la nave en la misma línea del objeto.
 - [ ] Dos o más alertas a la vez → escudos.
 
 **HU-12 Detectar sensores caídos y elegir quién cubre.** Como nave quiero saber qué sensor dejó de latir y qué vecino toma su sector.
