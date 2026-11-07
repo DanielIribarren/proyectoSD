@@ -15,11 +15,18 @@ PUERTO_PRUEBA = 5099 # distinto del 5050 para no chocar con una nave que esté c
 SEMILLA_PRUEBA = 7
 
 
+def latir(sock, sector):
+    """Manda un LATIDO por segundo, como un sensor de verdad, para que la nave no lo dé por caído."""
+    while enviar(sock, {'tipo': 'LATIDO', 'sector': sector}):
+        time.sleep(1)
+
+
 def conectar(sector):
     """Abre un socket hacia la nave de prueba, manda HOLA y devuelve (socket, generador de mensajes)."""
     sock = socket.create_connection(('127.0.0.1', PUERTO_PRUEBA))
     sock.settimeout(5) # si la nave no contesta, la prueba falla en vez de quedarse colgada
     enviar(sock, {'tipo': 'HOLA', 'sector': sector})
+    threading.Thread(target=latir, args=(sock, sector), daemon=True).start()
     return sock, leer_mensajes(sock)
 
 
