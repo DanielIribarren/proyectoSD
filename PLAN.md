@@ -167,6 +167,8 @@ def sectores_caidos(ultimo_latido, ahora):    # ultimo_latido = {sector: time.ti
 def elegir_cubridor(sector, activos):         # vecino vivo más cercano en el anillo, o None
 def auditar(sector, reportado, esperado, fallas):  # 'OK' | 'SOSPECHOSO' | 'CUARENTENA' (3 fallas)
 ```
+`fallas` es un diccionario `{sector: cantidad}` que guarda la nave; `auditar` le suma 1 a
+`fallas[sector]` cuando `reportado != esperado` y decide según el total.
 
 **`puente.py`** (E4) — lo usa la nave
 ```python
@@ -190,7 +192,9 @@ def publicar(estado):                  # manda el estado a todos los navegadores
   "eventos": [{"hora": "14:03:22", "nivel": "alerta", "texto": "Alerta roja en N"}]
 }
 ```
-`null` en la matriz = sector sin dato en ese tick. Estados de sensor: `ACTIVO`, `CAIDO`, `CUARENTENA`.
+`null` en la matriz = sector sin dato en ese tick. Estados de sensor: `ACTIVO`, `CAIDO`, `CUARENTENA`
+(un sector que nunca se conectó aparece como `CAIDO` con `ultimo_latido: null`). `maniobra` es `null`
+si no hay alerta. Niveles de evento: `info`, `aviso`, `alerta`.
 
 **Orden que manda el panel** (contrato E4 → E1): `{"accion": "apagar"|"alien"|"normal", "sector": "NE"}`
 
@@ -227,7 +231,7 @@ La nave recibe, ordena y reparte. No decide nada por sí misma: le pregunta a `m
 
 **HU-04 Sin duplicados y con prioridad.** Como nave quiero descartar repetidos y atender primero lo grave.
 - [ ] Clave `(tick, sector)`: vale el primero; los repetidos y los de ticks cerrados se descartan y se anotan.
-- [ ] `PriorityQueue`: alerta > sensor caído > reporte > latido.
+- [ ] `PriorityQueue`: reporte con detección (valor 1) > sensor caído > tick y reporte vacío > latido. La alerta roja se decide al cerrar el tick, en el mismo hilo, sin pasar por la cola.
 
 **HU-05 Conectar las piezas.** Como equipo queremos que la nave use los módulos de los demás.
 - [ ] Llama a `matriz.decidir` y `elegir_maniobra` al cerrar cada tick e imprime `texto_matriz`.
@@ -251,7 +255,7 @@ La nave recibe, ordena y reparte. No decide nada por sí misma: le pregunta a `m
 
 **HU-06 Cielo aleatorio con semilla compartida.** Como sensor quiero generar el mismo cielo que mis compañeros a partir de la semilla para que el entorno sea distribuido y determinista.
 - [ ] `random.Random(f"{semilla}-{tick}")`: misma semilla y tick → mismos objetos en cualquier proceso.
-- [ ] Trayectorias `directa` (1 sector), `tangente` (2–3 seguidos) y `rasante` (cruza el borde O–NO).
+- [ ] Trayectorias `directa` (1 sector), `tangente` (2–3 seguidos) y `rasante` (4 seguidos: pasa rozando la nave). Cualquiera puede cruzar el borde O–NO.
 - [ ] Frecuencia variable: ticks vacíos, normales y ráfagas.
 - [ ] Varían origen, tamaño y velocidad.
 
@@ -291,7 +295,7 @@ entrega a Daniel.
 - [ ] Prueba de las 256 combinaciones contra la definición.
 
 **HU-11 Maniobra.** Como operador quiero saber qué hace la nave ante la alerta.
-- [ ] Una alerta → evasión hacia el sector opuesto (N → S, NE → SO...).
+- [ ] Una alerta → evasión de costado, dos casillas más allá en el anillo (N → E, SO → NO). Ir hacia el lado opuesto dejaría a la nave en la misma línea del objeto.
 - [ ] Dos o más alertas a la vez → escudos.
 
 **HU-12 Detectar sensores caídos y elegir quién cubre.** Como nave quiero saber qué sensor dejó de latir y qué vecino toma su sector.
