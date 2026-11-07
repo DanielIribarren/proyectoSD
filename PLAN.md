@@ -251,7 +251,7 @@ La nave recibe, ordena y reparte. No decide nada por sí misma: le pregunta a `m
 
 **HU-06 Cielo aleatorio con semilla compartida.** Como sensor quiero generar el mismo cielo que mis compañeros a partir de la semilla para que el entorno sea distribuido y determinista.
 - [ ] `random.Random(f"{semilla}-{tick}")`: misma semilla y tick → mismos objetos en cualquier proceso.
-- [ ] Trayectorias `directa` (1 sector), `tangente` (2–3 seguidos) y `rasante` (cruza el borde O–NO).
+- [ ] Trayectorias `directa` (1 sector), `tangente` (2–3 seguidos) y `rasante` (4 seguidos: pasa rozando la nave). Cualquiera puede cruzar el borde O–NO.
 - [ ] Frecuencia variable: ticks vacíos, normales y ráfagas.
 - [ ] Varían origen, tamaño y velocidad.
 
