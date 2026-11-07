@@ -55,6 +55,7 @@ class PruebasNave(unittest.TestCase):
     def tearDownClass(cls):
         cls.nave.terminate()
         cls.nave.wait()
+        cls.nave.stdout.close()
 
     def esperar_linea(self, patron, segundos=5):
         """Espera a que la nave imprima una línea que cumpla el patrón."""

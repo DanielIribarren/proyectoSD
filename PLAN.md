@@ -167,6 +167,8 @@ def sectores_caidos(ultimo_latido, ahora):    # ultimo_latido = {sector: time.ti
 def elegir_cubridor(sector, activos):         # vecino vivo más cercano en el anillo, o None
 def auditar(sector, reportado, esperado, fallas):  # 'OK' | 'SOSPECHOSO' | 'CUARENTENA' (3 fallas)
 ```
+`fallas` es un diccionario `{sector: cantidad}` que guarda la nave; `auditar` le suma 1 a
+`fallas[sector]` cuando `reportado != esperado` y decide según el total.
 
 **`puente.py`** (E4) — lo usa la nave
 ```python
@@ -190,7 +192,9 @@ def publicar(estado):                  # manda el estado a todos los navegadores
   "eventos": [{"hora": "14:03:22", "nivel": "alerta", "texto": "Alerta roja en N"}]
 }
 ```
-`null` en la matriz = sector sin dato en ese tick. Estados de sensor: `ACTIVO`, `CAIDO`, `CUARENTENA`.
+`null` en la matriz = sector sin dato en ese tick. Estados de sensor: `ACTIVO`, `CAIDO`, `CUARENTENA`
+(un sector que nunca se conectó aparece como `CAIDO` con `ultimo_latido: null`). `maniobra` es `null`
+si no hay alerta. Niveles de evento: `info`, `aviso`, `alerta`.
 
 **Orden que manda el panel** (contrato E4 → E1): `{"accion": "apagar"|"alien"|"normal", "sector": "NE"}`
 
