@@ -227,7 +227,7 @@ La nave recibe, ordena y reparte. No decide nada por sí misma: le pregunta a `m
 
 **HU-04 Sin duplicados y con prioridad.** Como nave quiero descartar repetidos y atender primero lo grave.
 - [ ] Clave `(tick, sector)`: vale el primero; los repetidos y los de ticks cerrados se descartan y se anotan.
-- [ ] `PriorityQueue`: alerta > sensor caído > reporte > latido.
+- [ ] `PriorityQueue`: reporte con detección (valor 1) > sensor caído > tick y reporte vacío > latido. La alerta roja se decide al cerrar el tick, en el mismo hilo, sin pasar por la cola.
 
 **HU-05 Conectar las piezas.** Como equipo queremos que la nave use los módulos de los demás.
 - [ ] Llama a `matriz.decidir` y `elegir_maniobra` al cerrar cada tick e imprime `texto_matriz`.
