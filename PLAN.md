@@ -319,22 +319,22 @@ entrega a Daniel.
 ### E4 — Panel, lanzador y demo · Derek
 
 **HU-15 Puente WebSocket.** Como panel quiero recibir el estado de la nave en vivo y mandarle órdenes.
-- [ ] `puente.py` corre en un hilo aparte, puerto 8765, y no bloquea a la nave.
-- [ ] `simulador_estado.py` publica estados falsos con el formato del contrato, para trabajar sin la nave.
+- [x] `puente.py` corre en un hilo aparte, puerto 8765, y no bloquea a la nave.
+- [x] `simulador_estado.py` publica estados falsos con el formato del contrato, para trabajar sin la nave.
 
 **HU-16 Panel.** Como operador quiero ver la matriz, los sensores, la decisión y los eventos.
-- [ ] Matriz 3x3 con la nave al centro; la casilla en alerta en rojo, `null` como `?`.
-- [ ] Una tarjeta por sensor: estado, a quién cubre, último latido, fallas.
-- [ ] Banner de decisión y maniobra; registro de eventos con scroll.
-- [ ] Si se corta el WebSocket, muestra "Sin conexión con la nave" y reintenta.
+- [x] Matriz 3x3 con la nave al centro; la casilla en alerta en rojo, `null` como `?`.
+- [x] Una tarjeta por sensor: estado, a quién cubre, último latido, fallas.
+- [x] Banner de decisión y maniobra; registro de eventos con scroll.
+- [x] Si se corta el WebSocket, muestra "Sin conexión con la nave" y reintenta.
 
 **HU-17 Provocar fallas.** Como profesor quiero ver qué pasa cuando un sensor se cae o lo toman los aliens.
-- [ ] Botones "Apagar", "Modo alien" y "Normal" en cada tarjeta.
+- [x] Botones "Apagar", "Modo alien" y "Normal" en cada tarjeta.
 
 **HU-18 Arranque y demo.** Como profesor quiero levantar todo con un comando y ver un video claro.
-- [ ] `python3 iniciar.py [--semilla 1234]` abre la nave y los 8 sensores.
-- [ ] README con instalación y pasos.
-- [ ] Guion del video: arranque → ticks normales → alerta roja → tránsito seguro → borde O/NO → sensor caído y cobertura → sensor alien y cuarentena.
+- [x] `python3 iniciar.py [--semilla 1234]` abre la nave y los 8 sensores.
+- [x] README con instalación y pasos.
+- [x] Guion del video: arranque → ticks normales → alerta roja → tránsito seguro → borde O/NO → sensor caído y cobertura → sensor alien y cuarentena.
 
 | Tarea | Descripción | Depende de |
 |-------|-------------|------------|
